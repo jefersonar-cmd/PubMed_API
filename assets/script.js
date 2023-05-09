@@ -9,6 +9,7 @@ form.addEventListener('submit', event => {
 		.then(data => {
 			const ids = data.esearchresult.idlist;
 			results.innerHTML = '';
+			let contador = 0;
 			for (let id of ids) {
 				const articleUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&id=${id}`;
 				fetch(articleUrl)
@@ -21,7 +22,7 @@ form.addEventListener('submit', event => {
 						const link = document.createElement('a');
 						link.href = `https://www.ncbi.nlm.nih.gov/pubmed/${id}`;
 						link.target = '_blank';
-						link.textContent = article.querySelector('ArticleTitle').textContent;
+						link.textContent = (contador=contador+1) +'- '+article.querySelector('ArticleTitle').textContent;
 						li.appendChild(link);
 						const authors = article.querySelectorAll('AuthorList > Author > LastName');
 						const authorNames = Array.from(authors).map(author => author.textContent).join(', ');
